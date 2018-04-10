@@ -61,6 +61,31 @@ public class Griglia {
      * cancellato, il numero più in basso viene raddoppiato e riposizionato.
      */
     public void muoviSu() {
+        // Sposta tutti i Numeri della griglia verso l'alto.
+        for(int c = 0; c < 4; c++){
+            int posizioneSposta = 0;
+            for(int r = 0; r < 4; r++){
+                if(griglia[r][c] != null) {
+                    if(r != posizioneSposta) {
+                        Numero cella = griglia[r][c];
+                        if(posizioneSposta > 0) {
+                            if(cella.numero == griglia[posizioneSposta - 1][c].numero) {
+                                Numero cellaDaCancellare = griglia[posizioneSposta - 1][c];
+                                posizioneSposta--;
+                                cella.raddoppia();
+                                cellaDaCancellare.elimina();
+                            }
+                        }
+                        griglia[r][c] = null;
+                        griglia[posizioneSposta][c] = cella;
+                        cella.spostaIn(posizioneSposta, c);
+                    }
+                    posizioneSposta++;
+                }
+            }
+        }
+
+
     }
 
     public void muoviGiu() {

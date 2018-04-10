@@ -6,4 +6,17 @@ public class Numero {
     public Numero(int numero) {
         this.numero = numero;
     }
+
+    public void elimina() {
+        // TODO: Aggiornare l'interfaccia
+    }
+
+    public void raddoppia() {
+        numero *= 2;
+        // TODO: Aggiornare l'interfaccia
+    }
+
+    public void spostaIn(int riga, int colonna) {
+        // TODO: Aggiornare l'interfaccia
+    }
 }

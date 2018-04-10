@@ -5,12 +5,12 @@ import java.util.Scanner;
 public class TestGriglia {
     public static void main(String[] args) {
         Griglia griglia = new Griglia();
+        Scanner in = new Scanner(System.in);
 
         while (true) {
             TestGriglia.stampaGriglia(griglia);
             System.out.print("\nu = UP, d = DOWN, l = LEFT, r = RIGHT: ");
-            Scanner in = new Scanner(System.in);
-            char comando = '.';
+            char comando;
             comando = in.next().charAt(0);
             switch (comando) {
                 case 'u':
