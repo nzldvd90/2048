@@ -1,7 +1,5 @@
 package com.example.a2048.a2048.model;
 
-import android.util.Pair;
-
 import java.util.Vector;
 
 public class Griglia {
@@ -25,17 +23,17 @@ public class Griglia {
         }
     }
 
-    private Pair<Integer, Integer>[] ottieniCelleVuote() {
-        Vector<Pair<Integer, Integer>> celleVuote = new Vector<>();
+    private Vector<Posizione> ottieniCelleVuote() {
+        Vector<Posizione> celleVuote = new Vector<>();
         for (int r = 0; r < 4; r++) {
             for (int c = 0; c < 4; c++) {
                 if(griglia[r][c] == null) {
-                    celleVuote.add(new Pair<>(r, c));
+                    celleVuote.add(new Posizione(r, c));
                 }
             }
         }
 
-        return (Pair<Integer, Integer>[]) celleVuote.toArray();
+        return celleVuote;
     }
 
     /**
@@ -43,12 +41,16 @@ public class Griglia {
      * Se la griglia è piena viene sollevata una Exception per segnalare il problema.
      */
     public void aggiungiNumeroCasuale() throws Exception {
-        int riga = (int) Math.floor(Math.random() * 4);
-        int colonna = (int) Math.floor(Math.random() * 4);
-        if (griglia[riga][colonna] == null) {
+        Vector<Posizione> celleVuote = ottieniCelleVuote();
+        if (celleVuote.size() != 0) {
+            int indiceCellaVuota = (int)Math.floor(Math.random() * celleVuote.size());
+            int riga = celleVuote.get(indiceCellaVuota).riga;
+            int colonna = celleVuote.get(indiceCellaVuota).colonna;
             int valoreCasuale = (int) ((Math.floor(Math.random() * 2) + 1) * 2);
             Numero nuovoNumero = new Numero(valoreCasuale);
             griglia[riga][colonna] = nuovoNumero;
+        } else {
+            throw new Exception("Non ci sono celle vuote");
         }
 
     }
@@ -68,9 +70,5 @@ public class Griglia {
     }
 
     public void muoviSinistra() {
-    }
-
-    // Metodo temporaneo, per testare la componente
-    public void stampaGriglia() {
     }
 }

@@ -7,7 +7,7 @@ public class TestGriglia {
         Griglia griglia = new Griglia();
 
         while (true) {
-            griglia.stampaGriglia();
+            TestGriglia.stampaGriglia(griglia);
             System.out.print("\nu = UP, d = DOWN, l = LEFT, r = RIGHT: ");
             Scanner in = new Scanner(System.in);
             char comando = '.';
@@ -26,6 +26,20 @@ public class TestGriglia {
                     griglia.muoviDestra();
                     break;
             }
+        }
+    }
+
+    private static void stampaGriglia(Griglia griglia) {
+        for (int r = 0; r < 4; r++){
+            for (int c = 0; c < 4; c++){
+                Numero cella = griglia.griglia[r][c];
+                if(cella != null) {
+                    System.out.print(cella.numero + "\t");
+                } else {
+                    System.out.print("*\t");
+                }
+            }
+            System.out.println("");
         }
     }
 }
