@@ -64,16 +64,17 @@ public class Griglia {
             int posizioneSposta = 0;
             for (int r = 0; r < 4; r++) {
                 if (griglia[r][c] != null) {
-                    if(r != posizioneSposta) {
                     Numero cella = griglia[r][c];
                     if (posizioneSposta > 0) {
-                            if(cella.numero == griglia[posizioneSposta - 1][c].numero) {
-                                Numero cellaDaCancellare = griglia[posizioneSposta - 1][c];
-                                posizioneSposta--;
+                        if (cella.numero == griglia[posizioneSposta - 1][c].numero) {
+                            Numero cellaDaCancellare = griglia[posizioneSposta - 1][c];
                             cella.raddoppia();
                             cellaDaCancellare.elimina();
+                            posizioneSposta--;
                         }
                     }
+
+                    if (r != posizioneSposta) {
                         griglia[r][c] = null;
                         griglia[posizioneSposta][c] = cella;
                         cella.spostaIn(posizioneSposta, c);
