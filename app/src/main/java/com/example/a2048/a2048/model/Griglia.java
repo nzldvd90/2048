@@ -86,11 +86,80 @@ public class Griglia {
     }
 
     public void muoviGiu() {
+        for (int c = 0; c < 4; c++) {
+            int posizioneSposta = 3;
+            for (int r = 3; r >= 0; r--) {
+                if (griglia[r][c] != null) {
+                    Numero cella = griglia[r][c];
+                    if (posizioneSposta < 3) {
+                        if (cella.numero == griglia[posizioneSposta + 1][c].numero) {
+                            Numero cellaDaCancellare = griglia[posizioneSposta + 1][c];
+                            cella.raddoppia();
+                            cellaDaCancellare.elimina();
+                            posizioneSposta++;
+                        }
+                    }
+
+                    if (r != posizioneSposta) {
+                        griglia[r][c] = null;
+                        griglia[posizioneSposta][c] = cella;
+                        cella.spostaIn(posizioneSposta, c);
+                    }
+                    posizioneSposta--;
+                }
+            }
+        }
     }
 
     public void muoviDestra() {
+        for (int r = 0; r < 4; r++) {
+            int posizioneSposta = 3;
+            for (int c = 3; c >= 0; c--) {
+                if (griglia[r][c] != null) {
+                    Numero cella = griglia[r][c];
+                    if (posizioneSposta < 3) {
+                        if (cella.numero == griglia[r][posizioneSposta + 1].numero) {
+                            Numero cellaDaCancellare = griglia[c][posizioneSposta + 1];
+                            cella.raddoppia();
+                            cellaDaCancellare.elimina();
+                            posizioneSposta++;
+                        }
+                    }
+
+                    if (c != posizioneSposta) {
+                        griglia[r][c] = null;
+                        griglia[r][posizioneSposta] = cella;
+                        cella.spostaIn(r, posizioneSposta);
+                    }
+                    posizioneSposta--;
+                }
+            }
+        }
     }
 
     public void muoviSinistra() {
+        for (int r = 0; r < 4; r++) {
+            int posizioneSposta = 0;
+            for (int c = 0; c < 4; c++) {
+                if (griglia[r][c] != null) {
+                    Numero cella = griglia[r][c];
+                    if (posizioneSposta > 0) {
+                        if (cella.numero == griglia[r][posizioneSposta - 1].numero) {
+                            Numero cellaDaCancellare = griglia[c][posizioneSposta - 1];
+                            cella.raddoppia();
+                            cellaDaCancellare.elimina();
+                            posizioneSposta--;
+                        }
+                    }
+
+                    if (c != posizioneSposta) {
+                        griglia[r][c] = null;
+                        griglia[r][posizioneSposta] = cella;
+                        cella.spostaIn(r, posizioneSposta);
+                    }
+                    posizioneSposta++;
+                }
+            }
+        }
     }
 }
