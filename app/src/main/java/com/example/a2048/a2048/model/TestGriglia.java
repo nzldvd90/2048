@@ -7,12 +7,11 @@ public class TestGriglia {
         Griglia griglia = new Griglia();
         Scanner in = new Scanner(System.in);
 
-        try {
-            while (true) {
-                TestGriglia.stampaGriglia(griglia);
-                System.out.print("\nu = UP, d = DOWN, l = LEFT, r = RIGHT: ");
-                char comando;
-                comando = in.next().charAt(0);
+        while (true) {
+            TestGriglia.stampaGriglia(griglia);
+            System.out.print("\nu = UP, d = DOWN, l = LEFT, r = RIGHT: ");
+            try {
+                char comando = in.next().charAt(0);
                 switch (comando) {
                     case 'u':
                         griglia.muoviSu();
@@ -27,17 +26,20 @@ public class TestGriglia {
                         griglia.muoviDestra();
                         break;
                 }
+            } catch (GameOverException e) {
+                System.out.print("\n\n***** GAME OVER *****\n\n");
+                break;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            System.out.print("\n\n***** GAME OVER *****\n\n");
         }
     }
 
     private static void stampaGriglia(Griglia griglia) {
-        for (int r = 0; r < 4; r++){
-            for (int c = 0; c < 4; c++){
+        for (int r = 0; r < 4; r++) {
+            for (int c = 0; c < 4; c++) {
                 Numero cella = griglia.griglia[r][c];
-                if(cella != null) {
+                if (cella != null) {
                     System.out.print(cella.numero + "\t");
                 } else {
                     System.out.print("*\t");

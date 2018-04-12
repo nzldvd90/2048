@@ -17,7 +17,7 @@ public class Griglia {
         for (int i = 0; i < 3; i++) {
             try {
                 aggiungiNumeroCasuale();
-            } catch (Exception e) {
+            } catch (GameOverException e) {
                 e.printStackTrace();
             }
         }
@@ -38,9 +38,9 @@ public class Griglia {
 
     /**
      * Inserisce un 2 o 4 in una cella libera.
-     * Se la griglia è piena viene sollevata una Exception per segnalare il problema.
+     * Se la griglia è piena viene sollevata una GameOverException.
      */
-    public void aggiungiNumeroCasuale() throws Exception {
+    public void aggiungiNumeroCasuale() throws GameOverException {
         Vector<Posizione> celleVuote = ottieniCelleVuote();
         if (celleVuote.size() != 0) {
             int indiceCellaVuota = (int) Math.floor(Math.random() * celleVuote.size());
@@ -50,7 +50,7 @@ public class Griglia {
             Numero nuovoNumero = new Numero(valoreCasuale);
             griglia[riga][colonna] = nuovoNumero;
         } else {
-            throw new Exception("Non ci sono celle vuote");
+            throw new GameOverException();
         }
     }
 
@@ -61,7 +61,7 @@ public class Griglia {
      *
      * Solleva un'eccezione se non ci sono più celle libere nella quale inserire il numero.
      */
-    public void muoviSu() throws Exception {
+    public void muoviSu() throws GameOverException {
         for (int c = 0; c < 4; c++) {
             int posizioneSposta = 0;
             for (int r = 0; r < 4; r++) {
@@ -89,7 +89,7 @@ public class Griglia {
         aggiungiNumeroCasuale();
     }
 
-    public void muoviGiu() throws Exception {
+    public void muoviGiu() throws GameOverException {
         for (int c = 0; c < 4; c++) {
             int posizioneSposta = 3;
             for (int r = 3; r >= 0; r--) {
@@ -117,7 +117,7 @@ public class Griglia {
         aggiungiNumeroCasuale();
     }
 
-    public void muoviDestra() throws Exception {
+    public void muoviDestra() throws GameOverException {
         for (int r = 0; r < 4; r++) {
             int posizioneSposta = 3;
             for (int c = 3; c >= 0; c--) {
@@ -145,7 +145,7 @@ public class Griglia {
         aggiungiNumeroCasuale();
     }
 
-    public void muoviSinistra() throws Exception {
+    public void muoviSinistra() throws GameOverException {
         for (int r = 0; r < 4; r++) {
             int posizioneSposta = 0;
             for (int c = 0; c < 4; c++) {
