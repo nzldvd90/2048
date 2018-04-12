@@ -4,7 +4,22 @@ import java.util.Scanner;
 
 public class TestGriglia {
     public static void main(String[] args) {
-        Griglia griglia = new Griglia();
+        Griglia griglia = new Griglia(new Griglia.Eventi() {
+            @Override
+            public void numeroCreato(Numero numero, Posizione nuovaPosizione) {
+                System.out.println("Numero " + numero.numero + " creato in posizione (" + nuovaPosizione.riga + ", " + nuovaPosizione.colonna + ")");
+            }
+
+            @Override
+            public void numeroRaddoppiato(Numero numero) {
+                System.out.println("Numero raddoppiato a " + numero.numero);
+            }
+
+            @Override
+            public void numeroEliminato(Numero numero) {
+                System.out.println("Numero " + numero.numero + " eliminato");
+            }
+        });
         Scanner in = new Scanner(System.in);
 
         while (true) {

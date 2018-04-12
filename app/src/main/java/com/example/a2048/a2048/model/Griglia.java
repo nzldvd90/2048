@@ -6,11 +6,14 @@ public class Griglia {
     // Alloco una matrice di gioco 4x4
     public Numero[][] griglia = new Numero[4][4];
 
+    private Eventi eventi;
+
     /**
      * Crea una nuova griglia di gioco.
      * Inserisce 3 numeri casuali ('2' o '4') sparsi nella griglia.
      */
-    public Griglia() {
+    public Griglia(Eventi eventi) {
+        this.eventi = eventi;
         for (int i = 0; i < 3; i++) {
             try {
                 aggiungiNumeroCasuale();
@@ -32,13 +35,12 @@ public class Griglia {
         if (celleVuote.size() != 0) {
             // Ne prendo una a caso
             int indiceCellaVuota = (int) Math.floor(Math.random() * celleVuote.size());
-            int riga = celleVuote.get(indiceCellaVuota).riga;
-            int colonna = celleVuote.get(indiceCellaVuota).colonna;
-
-            // Scelgo a caso tra 2 e 4 e inizializzo il numero
+            Posizione posizioneCellaVuota = celleVuote.get(indiceCellaVuota);
             int valoreCasuale = (int) ((Math.floor(Math.random() * 2) + 1) * 2);
             Numero nuovoNumero = new Numero(valoreCasuale);
-            griglia[riga][colonna] = nuovoNumero;
+            griglia[posizioneCellaVuota.riga][posizioneCellaVuota.colonna] = nuovoNumero;
+            // Invoco l'evento della griglia
+            eventi.numeroCreato(nuovoNumero, posizioneCellaVuota);
         } else {
             throw new GameOverException();
         }
@@ -118,6 +120,9 @@ public class Griglia {
                     numCorr.numero *= 2;
                     griglia[posPrec.riga][posPrec.colonna] = numCorr;
                     griglia[posCorr.riga][posCorr.colonna] = null;
+                    // Invoco gli eventi della griglia
+                    eventi.numeroEliminato(numPrec);
+                    eventi.numeroRaddoppiato(numCorr);
                 }
             }
         }
@@ -161,5 +166,13 @@ public class Griglia {
                 break;
         }
         return new Posizione(riga, colonna);
+    }
+
+    public interface Eventi {
+        void numeroCreato(Numero numero, Posizione nuovaPosizione);
+
+        void numeroRaddoppiato(Numero numero);
+
+        void numeroEliminato(Numero numero);
     }
 }
