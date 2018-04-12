@@ -58,8 +58,10 @@ public class Griglia {
      * Sposta tutti i Numeri della griglia verso l'alto.
      * Se ci sono due numeri adiacenti uguali sulla stessa direzione il numero più in alto viene
      * cancellato, il numero più in basso viene raddoppiato e riposizionato.
+     *
+     * Solleva un'eccezione se non ci sono più celle libere nella quale inserire il numero.
      */
-    public void muoviSu() {
+    public void muoviSu() throws Exception {
         for (int c = 0; c < 4; c++) {
             int posizioneSposta = 0;
             for (int r = 0; r < 4; r++) {
@@ -83,9 +85,11 @@ public class Griglia {
                 }
             }
         }
+
+        aggiungiNumeroCasuale();
     }
 
-    public void muoviGiu() {
+    public void muoviGiu() throws Exception {
         for (int c = 0; c < 4; c++) {
             int posizioneSposta = 3;
             for (int r = 3; r >= 0; r--) {
@@ -109,9 +113,11 @@ public class Griglia {
                 }
             }
         }
+
+        aggiungiNumeroCasuale();
     }
 
-    public void muoviDestra() {
+    public void muoviDestra() throws Exception {
         for (int r = 0; r < 4; r++) {
             int posizioneSposta = 3;
             for (int c = 3; c >= 0; c--) {
@@ -135,9 +141,11 @@ public class Griglia {
                 }
             }
         }
+
+        aggiungiNumeroCasuale();
     }
 
-    public void muoviSinistra() {
+    public void muoviSinistra() throws Exception {
         for (int r = 0; r < 4; r++) {
             int posizioneSposta = 0;
             for (int c = 0; c < 4; c++) {
@@ -161,5 +169,7 @@ public class Griglia {
                 }
             }
         }
+
+        aggiungiNumeroCasuale();
     }
 }

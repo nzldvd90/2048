@@ -7,25 +7,29 @@ public class TestGriglia {
         Griglia griglia = new Griglia();
         Scanner in = new Scanner(System.in);
 
-        while (true) {
-            TestGriglia.stampaGriglia(griglia);
-            System.out.print("\nu = UP, d = DOWN, l = LEFT, r = RIGHT: ");
-            char comando;
-            comando = in.next().charAt(0);
-            switch (comando) {
-                case 'u':
-                    griglia.muoviSu();
-                    break;
-                case 'd':
-                    griglia.muoviGiu();
-                    break;
-                case 'l':
-                    griglia.muoviSinistra();
-                    break;
-                case 'r':
-                    griglia.muoviDestra();
-                    break;
+        try {
+            while (true) {
+                TestGriglia.stampaGriglia(griglia);
+                System.out.print("\nu = UP, d = DOWN, l = LEFT, r = RIGHT: ");
+                char comando;
+                comando = in.next().charAt(0);
+                switch (comando) {
+                    case 'u':
+                        griglia.muoviSu();
+                        break;
+                    case 'd':
+                        griglia.muoviGiu();
+                        break;
+                    case 'l':
+                        griglia.muoviSinistra();
+                        break;
+                    case 'r':
+                        griglia.muoviDestra();
+                        break;
+                }
             }
+        } catch (Exception e) {
+            System.out.print("\n\n***** GAME OVER *****\n\n");
         }
     }
 
