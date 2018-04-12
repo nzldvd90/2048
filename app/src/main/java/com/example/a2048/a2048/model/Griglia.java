@@ -27,7 +27,7 @@ public class Griglia {
         Vector<Posizione> celleVuote = new Vector<>();
         for (int r = 0; r < 4; r++) {
             for (int c = 0; c < 4; c++) {
-                if(griglia[r][c] == null) {
+                if (griglia[r][c] == null) {
                     celleVuote.add(new Posizione(r, c));
                 }
             }
@@ -43,7 +43,7 @@ public class Griglia {
     public void aggiungiNumeroCasuale() throws Exception {
         Vector<Posizione> celleVuote = ottieniCelleVuote();
         if (celleVuote.size() != 0) {
-            int indiceCellaVuota = (int)Math.floor(Math.random() * celleVuote.size());
+            int indiceCellaVuota = (int) Math.floor(Math.random() * celleVuote.size());
             int riga = celleVuote.get(indiceCellaVuota).riga;
             int colonna = celleVuote.get(indiceCellaVuota).colonna;
             int valoreCasuale = (int) ((Math.floor(Math.random() * 2) + 1) * 2);
@@ -52,7 +52,6 @@ public class Griglia {
         } else {
             throw new Exception("Non ci sono celle vuote");
         }
-
     }
 
     /**
@@ -61,21 +60,20 @@ public class Griglia {
      * cancellato, il numero più in basso viene raddoppiato e riposizionato.
      */
     public void muoviSu() {
-        // Sposta tutti i Numeri della griglia verso l'alto.
-        for(int c = 0; c < 4; c++){
+        for (int c = 0; c < 4; c++) {
             int posizioneSposta = 0;
-            for(int r = 0; r < 4; r++){
-                if(griglia[r][c] != null) {
+            for (int r = 0; r < 4; r++) {
+                if (griglia[r][c] != null) {
                     if(r != posizioneSposta) {
-                        Numero cella = griglia[r][c];
-                        if(posizioneSposta > 0) {
+                    Numero cella = griglia[r][c];
+                    if (posizioneSposta > 0) {
                             if(cella.numero == griglia[posizioneSposta - 1][c].numero) {
                                 Numero cellaDaCancellare = griglia[posizioneSposta - 1][c];
                                 posizioneSposta--;
-                                cella.raddoppia();
-                                cellaDaCancellare.elimina();
-                            }
+                            cella.raddoppia();
+                            cellaDaCancellare.elimina();
                         }
+                    }
                         griglia[r][c] = null;
                         griglia[posizioneSposta][c] = cella;
                         cella.spostaIn(posizioneSposta, c);
@@ -84,8 +82,6 @@ public class Griglia {
                 }
             }
         }
-
-
     }
 
     public void muoviGiu() {
