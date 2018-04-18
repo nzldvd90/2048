@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="340dp"
+    <RelativeLayout
+        android:id="@+id/griglia"
+        android:layout_width="match_parent"
         android:layout_height="340dp"
         android:layout_centerInParent="true"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:background="#00FF00" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView"
+        android:layout_above="@+id/griglia"
         android:layout_alignParentStart="true"
         android:layout_margin="16dp"
         android:orientation="horizontal">
@@ -67,4 +67,42 @@
                 android:textAlignment="center" />
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SU" />
+
+        <Button
+            android:id="@+id/btnGiu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="GIU" />
+
+        <Button
+            android:id="@+id/btnSinistra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SX" />
+
+        <Button
+            android:id="@+id/btnDestra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DX" />
+
+    </LinearLayout>
+
 </RelativeLayout>
