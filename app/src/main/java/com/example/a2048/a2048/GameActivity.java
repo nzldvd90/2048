@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,13 +64,42 @@ public class GameActivity extends AppCompatActivity {
         for (int r = 0; r < 4; r++) {
             for (int c = 0; c < 4; c++) {
                 if (griglia.griglia[r][c] != null) {
-                    TextView numeroView = listaNumeri.get(griglia.griglia[r][c]);
+                    final TextView numeroView = listaNumeri.get(griglia.griglia[r][c]);
 
                     // Calcola la posizione e la dimensione del nuovo numero da inserire nella griglia
-                    RelativeLayout.LayoutParams paramsNumero = (RelativeLayout.LayoutParams) numeroView.getLayoutParams();
-                    paramsNumero.leftMargin = c * paramsNumero.width;
-                    paramsNumero.topMargin = r * paramsNumero.width;
-                    numeroView.setLayoutParams(paramsNumero);
+                    final RelativeLayout.LayoutParams paramsNumero = (RelativeLayout.LayoutParams) numeroView.getLayoutParams();
+
+                    int toXDelta = c * paramsNumero.width - paramsNumero.leftMargin;
+                    int toYDelta = r * paramsNumero.height - paramsNumero.topMargin;
+                    Animation sposta = new TranslateAnimation(
+                            0f, toXDelta,
+                            0f, toYDelta);
+                    sposta.setDuration(375);
+                    sposta.setFillAfter(true);
+
+                    final int finalC = c;
+                    final int finalR = r;
+                    sposta.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            numeroView.clearAnimation();
+                            paramsNumero.leftMargin = finalC * paramsNumero.width;
+                            paramsNumero.topMargin = finalR * paramsNumero.width;
+                            numeroView.setLayoutParams(paramsNumero);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    if (toXDelta != 0 || toYDelta != 0)
+                        numeroView.startAnimation(sposta);
                 }
             }
         }
@@ -117,12 +149,22 @@ public class GameActivity extends AppCompatActivity {
                             paramsNumero.topMargin = nuovaPosizione.riga * paramsNumero.width;
 
                             viewNumero.setTextSize(sizeGriglia / 20);
-                            if(numero.numero > 99) {
+                            if (numero.numero > 99) {
                                 viewNumero.setTextSize(sizeGriglia / 25);
                             }
-                            if(numero.numero > 999) {
+                            if (numero.numero > 999) {
                                 viewNumero.setTextSize(sizeGriglia / 30);
                             }
+
+                            Animation compari = new ScaleAnimation(
+                                    0f, 1f, // X: 0% --> 100%
+                                    0f, 1f, // Y: 0% --> 100%
+                                    Animation.RELATIVE_TO_SELF, 0.5f, // centro rispetto a X
+                                    Animation.RELATIVE_TO_SELF, 0.5f // centro rispetto a Y
+                            );
+                            compari.setDuration(375);
+                            compari.setStartOffset(375);
+                            viewNumero.startAnimation(compari);
 
                             // Inserisce la nuova vista con le dimensioni calcolate sopra
                             grigliaView.addView(viewNumero, paramsNumero);
@@ -139,8 +181,31 @@ public class GameActivity extends AppCompatActivity {
 
                         @Override
                         public void numeroEliminato(Numero numero) {
-                            TextView vistaNumeroEliminato = listaNumeri.remove(numero);
-                            grigliaView.removeView(vistaNumeroEliminato);
+                            final TextView vistaNumeroEliminato = listaNumeri.remove(numero);
+
+                            Animation scompari = new ScaleAnimation(
+                                    1f, 0f, // X: 100% --> 0%
+                                    1f, 0f, // Y: 100% --> 0%
+                                    Animation.RELATIVE_TO_SELF, 0.5f, // centro rispetto a X
+                                    Animation.RELATIVE_TO_SELF, 0.5f // centro rispetto a Y
+                            );
+                            scompari.setDuration(375);
+                            scompari.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    grigliaView.removeView(vistaNumeroEliminato);
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+                                }
+                            });
+
+                            vistaNumeroEliminato.startAnimation(scompari);
                         }
                     });
                 }
