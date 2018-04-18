@@ -45,6 +45,7 @@ public class GameActivity extends AppCompatActivity {
                         griglia.muoviDestra();
                         break;
                 }
+                aggiornaPosizioneNumeri();
 
             } catch (GameOverException e) {
                 finish();
@@ -52,6 +53,22 @@ public class GameActivity extends AppCompatActivity {
             }
         }
     };
+
+    private void aggiornaPosizioneNumeri() {
+        for (int r = 0; r < 4; r++) {
+            for (int c = 0; c < 4; c++) {
+                if (griglia.griglia[r][c] != null) {
+                    TextView numeroView = listaNumeri.get(griglia.griglia[r][c]);
+
+                    // Calcola la posizione e la dimensione del nuovo numero da inserire nella griglia
+                    RelativeLayout.LayoutParams paramsNumero = (RelativeLayout.LayoutParams) numeroView.getLayoutParams();
+                    paramsNumero.leftMargin = c * paramsNumero.width;
+                    paramsNumero.topMargin = r * paramsNumero.width;
+                    numeroView.setLayoutParams(paramsNumero);
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
