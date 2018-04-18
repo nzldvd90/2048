@@ -109,6 +109,12 @@ public class GameActivity extends AppCompatActivity {
                             paramsNumero.topMargin = nuovaPosizione.riga * paramsNumero.width;
 
                             viewNumero.setTextSize(sizeGriglia / 20);
+                            if(numero.numero > 99) {
+                                viewNumero.setTextSize(sizeGriglia / 25);
+                            }
+                            if(numero.numero > 999) {
+                                viewNumero.setTextSize(sizeGriglia / 30);
+                            }
 
                             // Inserisce la nuova vista con le dimensioni calcolate sopra
                             grigliaView.addView(viewNumero, paramsNumero);
