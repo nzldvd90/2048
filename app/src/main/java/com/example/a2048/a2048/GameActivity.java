@@ -197,12 +197,6 @@ public class GameActivity extends AppCompatActivity {
                             paramsNumero.topMargin = nuovaPosizione.riga * paramsNumero.width;
 
                             viewNumero.setTextSize(sizeGriglia / 20);
-                            if (numero.numero > 99) {
-                                viewNumero.setTextSize(sizeGriglia / 25);
-                            }
-                            if (numero.numero > 999) {
-                                viewNumero.setTextSize(sizeGriglia / 30);
-                            }
 
                             Animation compari = new ScaleAnimation(
                                     0f, 1f, // X: 0% --> 100%
@@ -225,6 +219,12 @@ public class GameActivity extends AppCompatActivity {
                             TextView numeroRaddoppiatoView = listaNumeri.get(numero);
                             numeroRaddoppiatoView.setText(numero.numero + "");
                             numeroRaddoppiatoView.setBackgroundColor(coloreNumeri.get(numero.numero));
+                            if (numero.numero > 99) {
+                                numeroRaddoppiatoView.setTextSize(sizeGriglia / 25);
+                            }
+                            if (numero.numero > 999) {
+                                numeroRaddoppiatoView.setTextSize(sizeGriglia / 30);
+                            }
                         }
 
                         @Override
