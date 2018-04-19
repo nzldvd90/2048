@@ -30,7 +30,7 @@ public class GameActivity extends AppCompatActivity {
 
     RelativeLayout grigliaView;
 
-    int sizeGriglia;
+    int sizeGriglia, sogliaMinima;
 
     Griglia griglia;
 
@@ -122,8 +122,6 @@ public class GameActivity extends AppCompatActivity {
         grigliaView.setOnTouchListener(new View.OnTouchListener() {
             float startX, startY;
 
-            int sogliaMinima = sizeGriglia / 8; // Spostamento minimo = 1/2 dimensione del numero
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -172,6 +170,8 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onGlobalLayout() {
                 sizeGriglia = grigliaView.getMeasuredWidth();
+                sogliaMinima = sizeGriglia / 8; // Spostamento minimo = 1/2 dimensione del numero
+
 
                 // Rendo la Height == alla width
                 ViewGroup.LayoutParams params = grigliaView.getLayoutParams();
