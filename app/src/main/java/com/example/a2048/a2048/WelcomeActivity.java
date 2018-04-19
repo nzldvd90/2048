@@ -45,6 +45,7 @@ public class WelcomeActivity extends AppCompatActivity {
             if (stato != null && stato.equals("game-over")) {
                 Log.i("STATO", "GAME OVER");
                 Intent intent = new Intent(getBaseContext(), GameOverActivity.class);
+                intent.putExtra("score", data.getIntExtra("score", 0));
                 startActivityForResult(intent, REQUEST_CODE_FOR_GAME_OVER_ACTIVITY);
             }
             if (stato != null && stato.equals("win")) {

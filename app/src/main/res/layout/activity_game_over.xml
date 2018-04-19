@@ -39,4 +39,13 @@
         android:layout_above="@+id/btnMenu"
         android:layout_centerHorizontal="true"
         android:text="NUOVA PARTITA" />
+
+    <TextView
+        android:id="@+id/tvPunteggio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="BLA" />
 </RelativeLayout>

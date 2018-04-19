@@ -6,6 +6,8 @@ public class Griglia {
     // Alloco una matrice di gioco 4x4
     public Numero[][] griglia = new Numero[4][4];
 
+    public int punteggio = 0;
+
     private Eventi eventi;
 
     /**
@@ -118,6 +120,9 @@ public class Griglia {
                 // Il numero corrente è uguale al precedente? Se si, sommo i due numeri
                 if (numCorr != null && numPrec != null && numCorr.numero == numPrec.numero) {
                     numCorr.numero *= 2;
+
+                    punteggio += numCorr.numero;
+
                     griglia[posPrec.riga][posPrec.colonna] = numCorr;
                     griglia[posCorr.riga][posCorr.colonna] = null;
                     // Invoco gli eventi della griglia

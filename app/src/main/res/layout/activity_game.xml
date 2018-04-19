@@ -62,11 +62,11 @@
                 android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tvPunteggio"
                 style="@style/punteggio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="8"
+                android:text="0"
                 android:textAlignment="center" />
         </LinearLayout>
     </LinearLayout>

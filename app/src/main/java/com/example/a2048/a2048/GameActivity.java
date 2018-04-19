@@ -31,6 +31,8 @@ public class GameActivity extends AppCompatActivity {
 
     RelativeLayout grigliaView;
 
+    private TextView tvPunteggio;
+
     int sizeGriglia, sogliaMinima;
 
     Griglia griglia;
@@ -57,9 +59,12 @@ public class GameActivity extends AppCompatActivity {
             }
             aggiornaPosizioneNumeri();
 
+            tvPunteggio.setText(griglia.punteggio + "");
+
         } catch (GameOverException e) {
             Intent intent = new Intent();
             intent.putExtra("status", "game-over");
+            intent.putExtra("score", griglia.punteggio);
             setResult(RESULT_OK, intent);
             finish();
         }
@@ -121,6 +126,8 @@ public class GameActivity extends AppCompatActivity {
         impostaColori();
 
         inizializzaGriglia();
+
+        tvPunteggio = findViewById(R.id.tvPunteggio);
 
         grigliaView.setOnTouchListener(new View.OnTouchListener() {
             float startX, startY;
