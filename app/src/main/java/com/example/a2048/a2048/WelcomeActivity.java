@@ -10,6 +10,7 @@ import android.widget.Button;
 public class WelcomeActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_FOR_GAME_ACTIVITY = 1;
+    private static final int REQUEST_CODE_FOR_GAME_OVER_ACTIVITY = 2;
 
     Button btnPlay;
 
@@ -24,10 +25,14 @@ public class WelcomeActivity extends AppCompatActivity {
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), GameActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_FOR_GAME_ACTIVITY);
+                startGameActivity();
             }
         });
+    }
+
+    private void startGameActivity() {
+        Intent intent = new Intent(getBaseContext(), GameActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_FOR_GAME_ACTIVITY);
     }
 
     @Override
@@ -39,9 +44,19 @@ public class WelcomeActivity extends AppCompatActivity {
             String stato = data.getStringExtra("status");
             if (stato != null && stato.equals("game-over")) {
                 Log.i("STATO", "GAME OVER");
+                Intent intent = new Intent(getBaseContext(), GameOverActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_FOR_GAME_OVER_ACTIVITY);
             }
             if (stato != null && stato.equals("win")) {
                 Log.i("STATO", "WIN");
+            }
+        }
+
+        // La GameOver Activity ha terminato con un'azione
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_FOR_GAME_OVER_ACTIVITY) {
+            String action = data.getStringExtra("action");
+            if (action != null && action.equals("new-game")) {
+                startGameActivity();
             }
         }
 
