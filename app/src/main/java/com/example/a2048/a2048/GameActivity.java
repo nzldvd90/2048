@@ -1,6 +1,7 @@
 package com.example.a2048.a2048;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,8 +58,10 @@ public class GameActivity extends AppCompatActivity {
             aggiornaPosizioneNumeri();
 
         } catch (GameOverException e) {
+            Intent intent = new Intent();
+            intent.putExtra("status", "game-over");
+            setResult(RESULT_OK, intent);
             finish();
-            Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -134,19 +137,19 @@ public class GameActivity extends AppCompatActivity {
                         float deltaY = event.getY() - startY;
                         // Riconoscere un movimento orizzontale o verticale
                         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                            if(Math.abs(deltaX) < sogliaMinima) {
+                            if (Math.abs(deltaX) < sogliaMinima) {
                                 return false; // Evento non gestito
                             }
 
                             // Movimento orizzontale (MuoviSinistra, MuoviDestra)
-                            if(deltaX > 0){
+                            if (deltaX > 0) {
                                 mossa(Direzione.DESTRA);
                             } else {
                                 mossa(Direzione.SINISTRA);
                             }
 
                         } else {
-                            if(Math.abs(deltaY) < sogliaMinima) {
+                            if (Math.abs(deltaY) < sogliaMinima) {
                                 return false; // Evento non gestito
                             }
 
@@ -224,6 +227,13 @@ public class GameActivity extends AppCompatActivity {
                             }
                             if (numero.numero > 999) {
                                 numeroRaddoppiatoView.setTextSize(sizeGriglia / 30);
+                            }
+
+                            if (numero.numero == 2048) {
+                                Intent intent = new Intent();
+                                intent.putExtra("status", "win");
+                                setResult(RESULT_OK, intent);
+                                finish();
                             }
                         }
 
