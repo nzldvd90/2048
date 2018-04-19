@@ -1,9 +1,11 @@
 package com.example.a2048.a2048;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -14,12 +16,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a2048.a2048.model.Direzione;
 import com.example.a2048.a2048.model.GameOverException;
 import com.example.a2048.a2048.model.Griglia;
 import com.example.a2048.a2048.model.Numero;
 import com.example.a2048.a2048.model.Posizione;
 
 import java.util.HashMap;
+
+import static com.example.a2048.a2048.model.Direzione.*;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -33,32 +38,29 @@ public class GameActivity extends AppCompatActivity {
 
     HashMap<Integer, Integer> coloreNumeri = new HashMap<>();
 
-    View.OnClickListener buttonListeners = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            try {
-                switch (v.getId()) {
-                    case R.id.btnSu:
-                        griglia.muoviSu();
-                        break;
-                    case R.id.btnGiu:
-                        griglia.muoviGiu();
-                        break;
-                    case R.id.btnSinistra:
-                        griglia.muoviSinistra();
-                        break;
-                    case R.id.btnDestra:
-                        griglia.muoviDestra();
-                        break;
-                }
-                aggiornaPosizioneNumeri();
-
-            } catch (GameOverException e) {
-                finish();
-                Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
+    public void mossa(Direzione direzione) {
+        try {
+            switch (direzione) {
+                case SU:
+                    griglia.muoviSu();
+                    break;
+                case GIU:
+                    griglia.muoviGiu();
+                    break;
+                case SINISTRA:
+                    griglia.muoviSinistra();
+                    break;
+                case DESTRA:
+                    griglia.muoviDestra();
+                    break;
             }
+            aggiornaPosizioneNumeri();
+
+        } catch (GameOverException e) {
+            finish();
+            Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
         }
-    };
+    }
 
     private void aggiornaPosizioneNumeri() {
         for (int r = 0; r < 4; r++) {
@@ -105,6 +107,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,11 +117,56 @@ public class GameActivity extends AppCompatActivity {
 
         impostaColori();
 
-        findViewById(R.id.btnSu).setOnClickListener(buttonListeners);
-        findViewById(R.id.btnGiu).setOnClickListener(buttonListeners);
-        findViewById(R.id.btnSinistra).setOnClickListener(buttonListeners);
-        findViewById(R.id.btnDestra).setOnClickListener(buttonListeners);
+        inizializzaGriglia();
 
+        grigliaView.setOnTouchListener(new View.OnTouchListener() {
+            float startX, startY;
+
+            int sogliaMinima = sizeGriglia / 8; // Spostamento minimo = 1/2 dimensione del numero
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        startX = event.getX();
+                        startY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        float deltaX = event.getX() - startX;
+                        float deltaY = event.getY() - startY;
+                        // Riconoscere un movimento orizzontale o verticale
+                        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                            if(Math.abs(deltaX) < sogliaMinima) {
+                                return false; // Evento non gestito
+                            }
+
+                            // Movimento orizzontale (MuoviSinistra, MuoviDestra)
+                            if(deltaX > 0){
+                                mossa(Direzione.DESTRA);
+                            } else {
+                                mossa(Direzione.SINISTRA);
+                            }
+
+                        } else {
+                            if(Math.abs(deltaY) < sogliaMinima) {
+                                return false; // Evento non gestito
+                            }
+
+                            // Movimento verticale (MuoviSu, MuoviGiu)
+                            if (deltaY > 0) {
+                                mossa(Direzione.GIU);
+                            } else {
+                                mossa(Direzione.SU);
+                            }
+                        }
+                        break;
+                }
+                return true; // Evento gestito
+            }
+        });
+    }
+
+    private void inizializzaGriglia() {
         ViewTreeObserver vto = grigliaView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -211,7 +259,6 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void impostaColori() {
